@@ -1,4 +1,6 @@
 // api/buscar-mensagens.js
+import https from 'https';
+
 export default async function handler(req, res) {
   // Configuração CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -16,14 +18,18 @@ export default async function handler(req, res) {
     
     console.log('Fazendo requisição para:', N8N_URL);
 
+    // Agente HTTPS que ignora certificado autoassinado
+    const httpsAgent = new https.Agent({
+      rejectUnauthorized: false // Ignora certificado SSL inválido
+    });
+
     const response = await fetch(N8N_URL, {
       method: req.method,
       headers: {
         'Content-Type': 'application/json',
         'User-Agent': 'N8N-Proxy/1.0'
       },
-      // Configuração para ignorar SSL inválido no servidor
-      agent: undefined // Vercel cuida disso automaticamente
+      agent: httpsAgent // Usa o agente que ignora SSL
     });
 
     const data = await response.text();

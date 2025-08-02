@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/buscar-mensagens.js": {
+      "maxDuration": 30
+    },
+    "api/enviar-mensagem.js": {
+      "maxDuration": 30
+    }
+  }
+}

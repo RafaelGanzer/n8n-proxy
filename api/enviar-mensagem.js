@@ -2,16 +2,16 @@ const fetch = require('node-fetch');
 const https = require('https');
 
 export default async function handler(req, res) {
-  // Configuração CORS para todas requisições
+  // Configuração CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
+  // Responder OPTIONS (preflight)
   if (req.method === 'OPTIONS') {
-    // Respondendo ao preflight OPTIONS
-    return res.status(204).end();
+    return res.status(200).end();
   }
-
+  
   try {
     const N8N_URL = 'https://assistentemir4-n8n-9d372f-207-148-20-179.traefik.me/webhook/enviar-mensagem';
 

@@ -2,14 +2,14 @@ const fetch = require('node-fetch');
 const https = require('https');
 
 export default async function handler(req, res) {
-  // Configuração CORS
+  // Configuração CORS para todas requisições
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  // Responder OPTIONS (preflight)
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    // Respondendo ao preflight OPTIONS
+    return res.status(204).end();
   }
 
   try {
@@ -18,9 +18,7 @@ export default async function handler(req, res) {
     console.log('Fazendo requisição para:', N8N_URL);
     console.log('Dados recebidos:', req.body);
 
-    const httpsAgent = new https.Agent({
-      rejectUnauthorized: false
-    });
+    const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
     const response = await fetch(N8N_URL, {
       method: req.method,

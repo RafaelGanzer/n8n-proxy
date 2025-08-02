@@ -49,6 +49,8 @@ export default async function handler(req, res) {
       }));
     }
 
+    console.log('Mensagens filtradas:', mensagensFiltradas);
+
     return res.status(response.status).json({
       success: response.ok,
       data: mensagensFiltradas,

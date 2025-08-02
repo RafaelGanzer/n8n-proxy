@@ -1,7 +1,6 @@
 // api/buscar-mensagens.js
-import https from 'https';
-import fetch from 'node-fetch';
-
+const fetch = require('node-fetch');
+const https = require('https');
 
 export default async function handler(req, res) {
   // Configuração CORS

@@ -7,6 +7,9 @@
     "dev": "vercel dev",
     "build": "echo 'Build complete'"
   },
+  "dependencies": {
+	"node-fetch": "^3.3.2"
+	},
   "keywords": ["n8n", "proxy", "webhook", "casamento"],
-  "author": "Seu Nome"
+  "author": "Ganzer Publicidade"
 }

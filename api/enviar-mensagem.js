@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const https = require('https');
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   // Configuração CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -13,13 +13,11 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // URL do endpoint N8n para enviar mensagem
     const N8N_URL = 'https://assistentemir4-n8n-9d372f-207-148-20-179.traefik.me/webhook/enviar-mensagem';
 
     console.log('Fazendo requisição para:', N8N_URL);
     console.log('Dados recebidos:', req.body);
 
-    // Agente HTTPS que ignora certificado autoassinado
     const httpsAgent = new https.Agent({
       rejectUnauthorized: false
     });
@@ -59,4 +57,4 @@ module.exports = async function handler(req, res) {
       timestamp: new Date().toISOString()
     });
   }
-};
+}

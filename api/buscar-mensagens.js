@@ -13,14 +13,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    // URL do endpoint N8n para buscar mensagens
     const N8N_URL = 'https://assistentemir4-n8n-9d372f-207-148-20-179.traefik.me/webhook/buscar-mensagens';
     
     console.log('Fazendo requisição para:', N8N_URL);
 
-    // Agente HTTPS que ignora certificado autoassinado
     const httpsAgent = new https.Agent({
-      rejectUnauthorized: false // Ignora certificado SSL inválido
+      rejectUnauthorized: false
     });
 
     const response = await fetch(N8N_URL, {
@@ -29,23 +27,31 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         'User-Agent': 'N8N-Proxy/1.0'
       },
-      agent: httpsAgent // Usa o agente que ignora SSL
+      agent: httpsAgent
     });
 
     const data = await response.text();
     console.log('Resposta recebida:', response.status, data.substring(0, 200));
-    
-    // Tentar parsear como JSON
+
     let responseData;
     try {
       responseData = JSON.parse(data);
     } catch {
-      responseData = { message: data };
+      responseData = [];
+    }
+
+    // Filtrar só nome e mensagem
+    let mensagensFiltradas = [];
+    if (Array.isArray(responseData)) {
+      mensagensFiltradas = responseData.map(item => ({
+        nome: item.nome,
+        mensagem: item.mensagem
+      }));
     }
 
     return res.status(response.status).json({
       success: response.ok,
-      data: responseData,
+      data: mensagensFiltradas,
       timestamp: new Date().toISOString()
     });
 
@@ -57,5 +63,5 @@ export default async function handler(req, res) {
       message: error.message,
       timestamp: new Date().toISOString()
     });
-  }  
+  }
 }
